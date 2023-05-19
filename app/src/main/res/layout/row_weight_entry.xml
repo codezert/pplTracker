@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Weight"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtReps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Reps"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtSets"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Sets"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="14sp"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

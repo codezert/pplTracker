@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".ExerciseDetailsActivity">
+
+    <TextView
+        android:id="@+id/txtExerciseName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Exercise Name"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edtWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter weight"
+        android:inputType="numberDecimal"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtExerciseName" />
+
+    <EditText
+        android:id="@+id/edtReps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter reps"
+        android:inputType="number"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtWeight" />
+
+    <EditText
+        android:id="@+id/edtSets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter sets"
+        android:inputType="number"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtReps" />
+
+    <Button
+        android:id="@+id/btnSaveWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Save Weight"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/btn_as_usual"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edtSets" />
+
+    <Button
+        android:id="@+id/btn_as_usual"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="As Usual"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toStartOf="@+id/btn_increase"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/btnSaveWeight"
+        app:layout_constraintTop_toBottomOf="@+id/edtSets" />
+
+    <Button
+        android:id="@+id/btn_increase"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="+5%"
+        android:backgroundTint="#4CAF50"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteWeight"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/btn_as_usual"
+        app:layout_constraintTop_toBottomOf="@+id/edtSets" />
+
+    <Button
+        android:id="@+id/btnDeleteWeight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Delete Weight"
+        android:backgroundTint="#F44336"
+        android:textColor="#FFFFFF"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@+id/btn_increase"
+        app:layout_constraintTop_toBottomOf="@+id/edtSets" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWeightEntries"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSaveWeight" />
+
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:backgroundTint="#F44336"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
