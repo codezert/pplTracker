@@ -5,17 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
+import android.graphics.Color;
 
 public class WeightEntryAdapter extends RecyclerView.Adapter<WeightEntryAdapter.WeightEntryViewHolder> {
 
     private Context context;
     private List<WeightEntry> weightEntries;
     private OnItemClickListener listener;
+    private int selectedPosition = -1; // -1 indicates no item is selected
 
     public WeightEntryAdapter(Context context, List<WeightEntry> weightEntries) {
         this.context = context;
@@ -57,9 +57,23 @@ public class WeightEntryAdapter extends RecyclerView.Adapter<WeightEntryAdapter.
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(weightEntry);
+                    selectedPosition = position;
+                    notifyDataSetChanged();
                 }
             });
         }
+
+        // Set background color for selected item
+        if (selectedPosition == position) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#D3D3D3")); // Light Gray
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#00000000")); // Transparent
+        }
+    }
+
+    public void deselectCurrentItem() {
+        selectedPosition = -1;
+        notifyDataSetChanged();
     }
 
     @Override

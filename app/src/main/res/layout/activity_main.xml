@@ -7,73 +7,127 @@
     android:background="#000000"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="We all gonna make it!"
+        android:textSize="32sp"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-light"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/btnPush"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Push"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:backgroundTint="#222222"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeText" />
 
-    <TextView
-        android:id="@+id/tvPushDate"
+    <LinearLayout
+        android:id="@+id/datePushLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPush" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/btnPush"
+        app:layout_constraintLeft_toLeftOf="@+id/btnPush"
+        app:layout_constraintRight_toRightOf="@+id/btnPush">
+
+        <TextView
+            android:id="@+id/tvLastTimePush"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last time: "
+            android:textColor="#BBBBBB"/>
+
+        <TextView
+            android:id="@+id/tvPushDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFA500"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnPull"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Pull"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:backgroundTint="#222222"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPushDate" />
+        app:layout_constraintTop_toBottomOf="@+id/datePushLayout" />
 
-    <TextView
-        android:id="@+id/tvPullDate"
+    <LinearLayout
+        android:id="@+id/datePullLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnPull" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/btnPull"
+        app:layout_constraintLeft_toLeftOf="@+id/btnPull"
+        app:layout_constraintRight_toRightOf="@+id/btnPull">
+
+        <TextView
+            android:id="@+id/tvLastTimePull"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last time: "
+            android:textColor="#BBBBBB"/>
+
+        <TextView
+            android:id="@+id/tvPullDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFA500"/>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnLegs"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Legs"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="#FFFFFF"
         android:backgroundTint="#222222"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvPullDate" />
+        app:layout_constraintTop_toBottomOf="@+id/datePullLayout" />
 
-    <TextView
-        android:id="@+id/tvLegsDate"
+    <LinearLayout
+        android:id="@+id/dateLegsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLegs" />
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@+id/btnLegs"
+        app:layout_constraintLeft_toLeftOf="@+id/btnLegs"
+        app:layout_constraintRight_toRightOf="@+id/btnLegs">
 
+        <TextView
+            android:id="@+id/tvLastTimeLegs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last time: "
+            android:textColor="#BBBBBB"/>
+
+        <TextView
+            android:id="@+id/tvLegsDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFA500"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

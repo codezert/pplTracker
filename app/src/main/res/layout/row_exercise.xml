@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#000000"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/txtExerciseName"
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Exercise Name"
+        android:textColor="#FFFFFF"
         android:textSize="18sp" />
 
     <TextView
@@ -18,17 +20,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reps / Sets"
+        android:textColor="#FFFFFF"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/btnDeleteExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete" />
+        android:backgroundTint="#F44336"
+        android:text="Delete"
+        android:textColor="#FFFFFF" />
+
     <Button
         android:id="@+id/btnEditExercise"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#4CAF50"
         android:text="Edit"
+        android:textColor="#FFFFFF"
         android:visibility="gone" />
 </LinearLayout>

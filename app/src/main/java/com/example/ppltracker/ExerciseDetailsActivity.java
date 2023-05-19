@@ -181,6 +181,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     edtReps.setText("");
                     btnAddWeight.setText("Add Weight");
                     btnDeleteWeight.setVisibility(View.GONE);
+                    weightEntryAdapter.deselectCurrentItem();  // Assuming weightEntryAdapter is your adapter instance
                 }
             }
         });

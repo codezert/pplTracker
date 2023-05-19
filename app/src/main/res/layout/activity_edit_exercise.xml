@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#000000"
     tools:context=".EditExerciseActivity">
 
     <EditText
@@ -16,6 +17,9 @@
         android:ems="10"
         android:hint="Exercise Name"
         android:inputType="textPersonName"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        android:backgroundTint="#333333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,6 +32,9 @@
         android:ems="10"
         android:hint="Reps"
         android:inputType="text"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        android:backgroundTint="#333333"
         app:layout_constraintEnd_toStartOf="@+id/etSets"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etExerciseName"
@@ -41,6 +48,9 @@
         android:ems="10"
         android:hint="Sets"
         android:inputType="text"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#777777"
+        android:backgroundTint="#333333"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/etReps"
         app:layout_constraintTop_toBottomOf="@+id/etExerciseName"
@@ -52,6 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Save"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etReps" />
@@ -62,6 +74,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Cancel"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#F44336"
         app:layout_constraintEnd_toStartOf="@+id/btnSave"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etReps" />
