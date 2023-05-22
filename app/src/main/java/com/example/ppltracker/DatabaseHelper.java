@@ -12,10 +12,13 @@ import android.util.Log;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.text.ParseException;
+import com.github.mikephil.charting.data.Entry;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "PPLTracker.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 23;
 
     private static final String TABLE_EXERCISES = "exercises";
     private static final String EXERCISE_ID = "id";
@@ -424,6 +427,104 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return latestDate;
     }
+
+    public List<Entry> getRoutineVolume(String routine) {
+        List<Entry> entries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT date, SUM(weight * reps * sets) as TotalVolume FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) GROUP BY date ORDER BY date(date) ASC";
+        Cursor cursor = db.rawQuery(sql, new String[]{routine});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String dateStr = cursor.getString(0);
+                int totalVolume = cursor.getInt(1);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date date = sdf.parse(dateStr);
+                    if (date != null) {
+                        long millis = date.getTime();
+                        entries.add(new Entry(millis, totalVolume));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return entries;
+    }
+
+    public List<Entry> getTotalWeight(String routine) {
+        List<Entry> entries = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT date, SUM(weight) as TotalWeight FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) GROUP BY date ORDER BY date(date) ASC";
+        Cursor cursor = db.rawQuery(sql, new String[]{routine});
+
+        if (cursor.moveToFirst()) {
+            do {
+                String dateStr = cursor.getString(0);
+                int totalWeight = cursor.getInt(1);
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                try {
+                    Date date = sdf.parse(dateStr);
+                    if (date != null) {
+                        long millis = date.getTime();
+                        entries.add(new Entry(millis, totalWeight));
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return entries;
+    }
+
+
+    public float getImprovementRate(String routine) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String sql = "SELECT exercise_id, weight, reps, sets FROM " +
+                "(SELECT exercise_id, weight, reps, sets, date, ROW_NUMBER() OVER (PARTITION BY exercise_id ORDER BY date DESC) row_num FROM " + TABLE_WEIGHT_ENTRIES +
+                " WHERE exercise_id IN (SELECT id FROM " + TABLE_EXERCISES + " WHERE routine = ?))" +
+                " WHERE row_num <= 5 ORDER BY exercise_id, date ASC";
+
+        Cursor cursor = db.rawQuery(sql, new String[]{routine});
+
+        float previousVolume = 0;
+        float totalIncrease = 0;
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            do {
+                float currentWeight = cursor.getFloat(cursor.getColumnIndex(WEIGHT_WEIGHT));
+                int currentReps = cursor.getInt(cursor.getColumnIndex(WEIGHT_REPS));
+                int currentSets = cursor.getInt(cursor.getColumnIndex(WEIGHT_SETS));
+                float currentVolume = currentWeight * currentReps * currentSets;
+
+                if (previousVolume != 0) {
+                    float increase = currentVolume - previousVolume;
+                    totalIncrease += increase;
+                    count++;
+                }
+
+                previousVolume = currentVolume;
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        if (count > 0) {
+            return totalIncrease / count *100;
+        } else {
+            return 0;
+        }
+    }
+
 
 
 }

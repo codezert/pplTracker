@@ -50,6 +50,16 @@ public class ExerciseListActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button btnRoutineStats = findViewById(R.id.btnRoutineStats);
+        btnRoutineStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ExerciseListActivity.this, RoutineStatisticsActivity.class);
+                intent.putExtra("routine", routine);  // routineName is the name of the routine you want to pass
+                startActivity(intent);
+            }
+        });
     }
 
     private void updateExerciseList() {

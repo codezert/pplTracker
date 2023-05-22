@@ -36,6 +36,8 @@
             android:name=".ExerciseListActivity"
             android:exported="false" />
 
+        <activity android:name=".RoutineStatisticsActivity" />
+
     </application>
 
 </manifest>

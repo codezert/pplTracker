@@ -232,11 +232,30 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
 
     private void updateWeightEntryList() {
         weightEntryList = dbHelper.getWeightEntriesByExerciseId(exerciseId);
+
         // Update the data in the adapter
         weightEntryAdapter.setWeightEntryList(weightEntryList);
         // Notify the adapter of the changes
         weightEntryAdapter.notifyDataSetChanged();
+
+        Button btnAddWeight = findViewById(R.id.btnSaveWeight);
+        Button btnAsUsual = findViewById(R.id.btn_as_usual);
+        Button btnIncreaseWeight = findViewById(R.id.btn_increase);
+
+        if (weightEntryList.size() == 0) {
+            // If there are no weights, show 'Add Weight' button and hide others
+            btnAddWeight.setText("Add Weight");
+            btnAsUsual.setVisibility(View.GONE);
+            btnIncreaseWeight.setVisibility(View.GONE);
+        } else {
+            // If there is at least one weight, show 'Save Weight' and 'As Usual' buttons
+            btnAddWeight.setText("Save Weight");
+            btnAsUsual.setVisibility(View.VISIBLE);
+            btnIncreaseWeight.setVisibility(View.VISIBLE);  // Optional depending on your requirements
+        }
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

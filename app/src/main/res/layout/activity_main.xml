@@ -14,11 +14,14 @@
         android:text="We all gonna make it!"
         android:textSize="32sp"
         android:textColor="#FFFFFF"
-        android:fontFamily="sans-serif-light"
+        android:background="@drawable/rounded_background"
         android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        android:fontFamily="sans-serif-medium"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnPush" />
 
     <Button
         android:id="@+id/btnPush"
