@@ -18,7 +18,7 @@ import com.github.mikephil.charting.data.Entry;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "PPLTracker.db";
-    private static final int DATABASE_VERSION = 23;
+    private static final int DATABASE_VERSION = 25;
 
     private static final String TABLE_EXERCISES = "exercises";
     private static final String EXERCISE_ID = "id";
@@ -77,8 +77,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (id != -1) {
             // Add a default weight entry for this exercise
-            String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
-            WeightEntry defaultWeightEntry = new WeightEntry(-1, id, 0.0, 0, 0, date, System.currentTimeMillis());
+            //String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+            WeightEntry defaultWeightEntry = new WeightEntry(-1, id, 0.0, 0, 0, null, System.currentTimeMillis());
             addWeightEntry(defaultWeightEntry);
         }
 
@@ -432,7 +432,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Entry> entries = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT date, SUM(weight * reps * sets) as TotalVolume FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) GROUP BY date ORDER BY date(date) ASC";
+        String sql = "SELECT date, SUM(weight * reps * sets) as TotalVolume FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) AND date IS NOT NULL GROUP BY date ORDER BY date(date) ASC";
         Cursor cursor = db.rawQuery(sql, new String[]{routine});
 
         if (cursor.moveToFirst()) {
@@ -461,7 +461,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Entry> entries = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT date, SUM(weight) as TotalWeight FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) GROUP BY date ORDER BY date(date) ASC";
+        String sql = "SELECT date, SUM(weight) as TotalWeight FROM weight_entries WHERE exercise_id IN (SELECT id FROM exercises WHERE routine = ?) AND date IS NOT NULL GROUP BY date ORDER BY date(date) ASC";
         Cursor cursor = db.rawQuery(sql, new String[]{routine});
 
         if (cursor.moveToFirst()) {
@@ -500,6 +500,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         float previousVolume = 0;
         float totalIncrease = 0;
         int count = 0;
+
         if (cursor.moveToFirst()) {
             do {
                 float currentWeight = cursor.getFloat(cursor.getColumnIndex(WEIGHT_WEIGHT));
@@ -508,7 +509,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 float currentVolume = currentWeight * currentReps * currentSets;
 
                 if (previousVolume != 0) {
-                    float increase = currentVolume - previousVolume;
+                    float increase = ((currentVolume - previousVolume) / previousVolume) * 100;
                     totalIncrease += increase;
                     count++;
                 }
@@ -516,14 +517,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 previousVolume = currentVolume;
             } while (cursor.moveToNext());
         }
+
         cursor.close();
 
         if (count > 0) {
-            return totalIncrease / count *100;
+            return totalIncrease / count;
         } else {
             return 0;
         }
     }
+
+
+
+
+
+
 
 
 

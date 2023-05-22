@@ -46,8 +46,8 @@ public class RoutineStatisticsActivity extends AppCompatActivity {
         List<Entry> routineVolumeData = databaseHelper.getRoutineVolume(routine);
         List<Entry> totalWeightData = databaseHelper.getTotalWeight(routine);
 
-        if(routineVolumeData.size() < 3 || totalWeightData.size() < 3) {
-            Toast.makeText(this, "Provide more than two training sessions to generate stats.", Toast.LENGTH_LONG).show();
+        if(routineVolumeData.size() < 2 || totalWeightData.size() < 2) {
+            Toast.makeText(this, "Provide two training sessions to generate stats.", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
@@ -58,7 +58,7 @@ public class RoutineStatisticsActivity extends AppCompatActivity {
         TextView tvImprovementRate = findViewById(R.id.tvImprovementRate);
         float improvementRate = databaseHelper.getImprovementRate(routine);
         if (improvementRate != 0) {
-            tvImprovementRate.setText(String.format("Monthly Volume Change: %.2f%%", improvementRate));
+            tvImprovementRate.setText(String.format("Average Monthly Volume Change: %.2f%%", improvementRate));
         } else {
             tvImprovementRate.setText("Not enough data to compute improvement rate");
         }

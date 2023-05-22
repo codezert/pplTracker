@@ -61,7 +61,7 @@
         android:id="@+id/btnSaveWeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Save Weight"
+        android:text="Add Weight"
         android:backgroundTint="#4CAF50"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toStartOf="@+id/btn_as_usual"

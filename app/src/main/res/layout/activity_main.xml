@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="We all gonna make it!"
-        android:textSize="32sp"
+        android:textSize="24sp"
         android:textColor="#FFFFFF"
         android:background="@drawable/rounded_background"
         android:padding="16dp"

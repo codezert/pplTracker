@@ -71,6 +71,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                 edtReps.setText(String.valueOf(weightEntry.getReps()));
                 btnAddWeight.setText("Update Weight");
                 btnAsUsual.setVisibility(View.GONE);  // HIDE "As Usual" button
+                btnIncreaseWeight.setVisibility(View.GONE);
                 btnDeleteWeight.setVisibility(View.VISIBLE);  // Show Delete button
             }
         });
@@ -97,7 +98,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         btnIncreaseWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightText = edtWeight.getText().toString();
+                String weightText = edtWeight.getText().toString().replace(',', '.'); //Replace ',' with '.' if it exists                String weightText = edtWeight.getText().toString();
                 if (!weightText.isEmpty()) {
                     double weight = Double.parseDouble(weightText);
                     weight = weight*1.05; // Increase by 5%
@@ -143,7 +144,6 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                         edtSets.setText("");
                         edtReps.setText("");
                         updateWeightEntryList();
-                        selectedWeightEntry = null;
                         btnAddWeight.setText("Add Weight");
                         btnDeleteWeight.setVisibility(View.GONE);  // Hide Delete button
                     } else {
@@ -154,16 +154,17 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     selectedWeightEntry.setSets(sets);
                     selectedWeightEntry.setReps(reps);
                     dbHelper.updateWeightEntry(selectedWeightEntry);
-                    selectedWeightEntry = null;
                     edtWeight.setText("");
                     edtSets.setText("");
                     edtReps.setText("");
                     btnAddWeight.setText("Add Weight");
                     btnDeleteWeight.setVisibility(View.GONE);  // Hide Delete button
-                    }
+                }
+                selectedWeightEntry = null;
                 updateWeightEntryList();
                 btnAsUsual.setVisibility(View.VISIBLE);  // Show "As Usual" button
                 btnIncreaseWeight.setVisibility(View.GONE);  // Hide "5%" button
+                weightEntryAdapter.deselectCurrentItem();
             }
         });
 
@@ -181,7 +182,8 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     edtReps.setText("");
                     btnAddWeight.setText("Add Weight");
                     btnDeleteWeight.setVisibility(View.GONE);
-                    weightEntryAdapter.deselectCurrentItem();  // Assuming weightEntryAdapter is your adapter instance
+                    btnAsUsual.setVisibility(View.VISIBLE);
+                    weightEntryAdapter.deselectCurrentItem();
                 }
             }
         });
@@ -210,6 +212,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                                         Toast.makeText(ExerciseDetailsActivity.this, "Failed to delete weight entry", Toast.LENGTH_SHORT).show();
                                     }
                                     btnAsUsual.setVisibility(View.VISIBLE);  // Show "As Usual" button
+                                    btnIncreaseWeight.setVisibility(View.GONE);  // Show "As Usual" button
                                 }
                             })
                             .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -224,6 +227,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(ExerciseDetailsActivity.this, "No weight entry selected", Toast.LENGTH_SHORT).show();
                 }
+                weightEntryAdapter.deselectCurrentItem();
             }
         });
 
@@ -237,19 +241,19 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         weightEntryAdapter.setWeightEntryList(weightEntryList);
         // Notify the adapter of the changes
         weightEntryAdapter.notifyDataSetChanged();
+        weightEntryAdapter.deselectCurrentItem();
 
         Button btnAddWeight = findViewById(R.id.btnSaveWeight);
         Button btnAsUsual = findViewById(R.id.btn_as_usual);
         Button btnIncreaseWeight = findViewById(R.id.btn_increase);
+        btnAddWeight.setText("Add Weight");
 
         if (weightEntryList.size() == 0) {
             // If there are no weights, show 'Add Weight' button and hide others
-            btnAddWeight.setText("Add Weight");
             btnAsUsual.setVisibility(View.GONE);
             btnIncreaseWeight.setVisibility(View.GONE);
         } else {
             // If there is at least one weight, show 'Save Weight' and 'As Usual' buttons
-            btnAddWeight.setText("Save Weight");
             btnAsUsual.setVisibility(View.VISIBLE);
             btnIncreaseWeight.setVisibility(View.VISIBLE);  // Optional depending on your requirements
         }
