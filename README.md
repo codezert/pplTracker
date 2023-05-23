@@ -46,13 +46,14 @@ The PPLTracker interface is straightforward:
 - **Exercise Screen**: Here, you can add or remove exercises from your routine, and input your reps, sets, and weights.
 - **Statistics Screen**: View your progress charts and improvement rates here.
 
-### Screenshots
+## Screenshots
 
-![grafik](https://github.com/codezert/pplTracker/assets/133855767/bf45e7c8-0c90-4926-9b40-45f731e6619e)
-![grafik](https://github.com/codezert/pplTracker/assets/133855767/86353010-0865-4eb3-aca1-223b81f515d4)
-![grafik](https://github.com/codezert/pplTracker/assets/133855767/e6b6987a-a531-422e-b25d-beedaeaee9fc)
-![grafik](https://github.com/codezert/pplTracker/assets/133855767/f857a0be-f8e5-491d-8e6c-f43afca28208)
-
+<p float="left">
+  <img src="https://github.com/codezert/pplTracker/assets/133855767/bf45e7c8-0c90-4926-9b40-45f731e6619e" width="200" />
+  <img src="https://github.com/codezert/pplTracker/assets/133855767/86353010-0865-4eb3-aca1-223b81f515d4" width="200" /> 
+  <img src="https://github.com/codezert/pplTracker/assets/133855767/e6b6987a-a531-422e-b25d-beedaeaee9fc" width="200" />
+  <img src="https://github.com/codezert/pplTracker/assets/133855767/f857a0be-f8e5-491d-8e6c-f43afca28208" width="200" />
+</p>
 
 ## Contributing
 
