@@ -84,7 +84,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 WeightEntry recentWeightEntry = dbHelper.getMostRecentWeightEntry(exerciseId);
                 if (recentWeightEntry != null) {
-                    edtWeight.setText(String.format(Locale.getDefault(), "%.2f", recentWeightEntry.getWeight()));
+                    edtWeight.setText(String.format(Locale.US, "%.2f", recentWeightEntry.getWeight()));
                     edtSets.setText(String.valueOf(recentWeightEntry.getSets()));
                     edtReps.setText(String.valueOf(recentWeightEntry.getReps()));
                     btnAsUsual.setVisibility(View.GONE);  // Hide "As Usual" button
@@ -98,11 +98,11 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         btnIncreaseWeight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String weightText = edtWeight.getText().toString().replace(',', '.'); //Replace ',' with '.' if it exists                String weightText = edtWeight.getText().toString();
+                String weightText = edtWeight.getText().toString();
                 if (!weightText.isEmpty()) {
                     double weight = Double.parseDouble(weightText);
                     weight = weight*1.05; // Increase by 5%
-                    edtWeight.setText(String.format(Locale.getDefault(), "%.2f", weight));
+                    edtWeight.setText(String.format(Locale.US, "%.2f", weight));
                 } else {
                     Toast.makeText(ExerciseDetailsActivity.this, "Please enter weight", Toast.LENGTH_SHORT).show();
                 }
