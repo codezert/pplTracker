@@ -50,6 +50,9 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         setupButtons();
 
         loadExerciseDetails();
+        if (exercise == null) {
+            return;
+        }
         updateWeightEntryList();
     }
 
@@ -91,6 +94,11 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         exerciseId = intent.getIntExtra("exerciseId", -1);
         exercise = dbHelper.getExerciseById(exerciseId);
+        if (exercise == null) {
+            Toast.makeText(this, "Exercise not found", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         txtExerciseName.setText(exercise.getName());
         btnDeleteWeight.setVisibility(View.GONE);
         btnIncreaseWeight.setVisibility(View.GONE);
@@ -123,7 +131,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
     private void increaseWeightBy5Percent() {
         String weightText = edtWeight.getText().toString();
         if (!weightText.isEmpty()) {
-            double weight = Double.parseDouble(weightText) * 1.05;
+            double weight = parseWeight(weightText) * 1.05;
             edtWeight.setText(String.format(Locale.US, "%.2f", weight));
         } else {
             Toast.makeText(this, "Please enter weight", Toast.LENGTH_SHORT).show();
@@ -132,7 +140,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
 
     private void saveOrUpdateWeightEntry() {
         if (validateInputs()) {
-            double weight = (double) Math.round(Float.parseFloat(edtWeight.getText().toString()) * 100) / 100.0;
+            double weight = Math.round(parseWeight(edtWeight.getText().toString()) * 100) / 100.0;
             int sets = Integer.parseInt(edtSets.getText().toString());
             int reps = Integer.parseInt(edtReps.getText().toString());
             String date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
@@ -149,9 +157,20 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         }
     }
 
+    // Accepts both '.' and ',' as decimal separator (German keyboards)
+    private double parseWeight(String text) {
+        return Double.parseDouble(text.trim().replace(',', '.'));
+    }
+
     private boolean validateInputs() {
         if (edtWeight.getText().toString().isEmpty() || edtSets.getText().toString().isEmpty() || edtReps.getText().toString().isEmpty()) {
             Toast.makeText(this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        try {
+            parseWeight(edtWeight.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Invalid weight", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (edtWeight.getText().toString().length() > 8 || edtSets.getText().toString().length() > 5 || edtReps.getText().toString().length() > 8) {
@@ -210,7 +229,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
                     .setTitle("Delete entry")
                     .setMessage("Are you sure you want to delete this entry? This action cannot be undone.")
                     .setPositiveButton(android.R.string.yes, (dialog, which) -> deleteWeightEntry())
-                    .setNegativeButton(android.R.string.no, (dialog, which) -> selectedWeightEntry = null)
+                    .setNegativeButton(android.R.string.no, null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         } else {
@@ -267,6 +286,14 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
         Toast.makeText(this, "Rest timer started", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (restTimer != null) {
+            restTimer.cancel();
+        }
+        super.onDestroy();
+    }
+
     private void updateWeightEntryList() {
         weightEntryList = dbHelper.getWeightEntriesByExerciseId(exerciseId);
         weightEntryAdapter.setWeightEntryList(weightEntryList);
@@ -285,7 +312,7 @@ public class ExerciseDetailsActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {
-            if (data.getBooleanExtra("deleted", false)) {
+            if (data != null && data.getBooleanExtra("deleted", false)) {
                 Toast.makeText(this, "Exercise deleted", Toast.LENGTH_SHORT).show();
             }
             updateWeightEntryList();

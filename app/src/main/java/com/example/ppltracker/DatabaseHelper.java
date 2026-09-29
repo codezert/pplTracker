@@ -143,6 +143,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close(); // Close the cursor
             return exercise;
         }
+        if (cursor != null) {
+            cursor.close();
+        }
         return null; // Return null if no exercise found
     }
 
@@ -236,9 +239,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase(); // Open a readable database
 
         // SQL query to select exercises based on the routine
-        String selectQuery = "SELECT * FROM " + TABLE_EXERCISES + " WHERE " + EXERCISE_ROUTINE + " = '" + routine + "'";
+        String selectQuery = "SELECT * FROM " + TABLE_EXERCISES + " WHERE " + EXERCISE_ROUTINE + " = ?";
 
-        Cursor cursor = db.rawQuery(selectQuery, null); // Execute the query
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{routine}); // Execute the query
 
         if (cursor.moveToFirst()) {
             do {
@@ -268,10 +271,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // SQL query to find the most recent weight entry for an exercise
         String selectQuery = "SELECT * FROM " + TABLE_WEIGHT_ENTRIES +
-                " WHERE " + WEIGHT_EXERCISE_ID + " = " + exerciseId +
-                " ORDER BY " + WEIGHT_DATE + " DESC LIMIT 1";
+                " WHERE " + WEIGHT_EXERCISE_ID + " = ?" +
+                " ORDER BY " + WEIGHT_TIMESTAMP + " DESC LIMIT 1";
 
-        Cursor cursor = db.rawQuery(selectQuery, null); // Execute the query
+        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(exerciseId)}); // Execute the query
 
         if (cursor.moveToFirst()) {
             // Fetching values from cursor
@@ -362,26 +365,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void createDefaultWorkouts() {
         addExercise(new Exercise(0, "Bench Press", "5", "5", "Push"));
         addExercise(new Exercise(0, "Overhead Press", "5", "5", "Push"));
-        addExercise(new Exercise(0, "Incline Dumbbell Press", "3", "8", "Push"));
-        addExercise(new Exercise(0, "Tricep Dips", "3", "10", "Push"));
-        addExercise(new Exercise(0, "Close Grip Bench Press", "3", "10", "Push"));
-        addExercise(new Exercise(0, "Push Ups", "3", "10", "Push"));
+        addExercise(new Exercise(0, "Incline Dumbbell Press", "8", "3", "Push"));
+        addExercise(new Exercise(0, "Tricep Dips", "10", "3", "Push"));
+        addExercise(new Exercise(0, "Close Grip Bench Press", "10", "3", "Push"));
+        addExercise(new Exercise(0, "Push Ups", "10", "3", "Push"));
 
         // Pull day exercises
         addExercise(new Exercise(0, "Deadlift", "5", "5", "Pull"));
-        addExercise(new Exercise(0, "Pull Ups", "3", "10", "Pull"));
-        addExercise(new Exercise(0, "Barbell Rows", "3", "10", "Pull"));
-        addExercise(new Exercise(0, "Face Pulls", "3", "10", "Pull"));
-        addExercise(new Exercise(0, "Bicep Curls", "3", "10", "Pull"));
-        addExercise(new Exercise(0, "Hammer Curls", "3", "10", "Pull"));
+        addExercise(new Exercise(0, "Pull Ups", "10", "3", "Pull"));
+        addExercise(new Exercise(0, "Barbell Rows", "10", "3", "Pull"));
+        addExercise(new Exercise(0, "Face Pulls", "10", "3", "Pull"));
+        addExercise(new Exercise(0, "Bicep Curls", "10", "3", "Pull"));
+        addExercise(new Exercise(0, "Hammer Curls", "10", "3", "Pull"));
 
         // Legs day exercises
         addExercise(new Exercise(0, "Squats", "5", "5", "Legs"));
-        addExercise(new Exercise(0, "Leg Press", "3", "10", "Legs"));
-        addExercise(new Exercise(0, "Lunges", "3", "10", "Legs"));
-        addExercise(new Exercise(0, "Leg Curls", "3", "10", "Legs"));
-        addExercise(new Exercise(0, "Calf Raises", "3", "10", "Legs"));
-        addExercise(new Exercise(0, "Abdominal Crunches", "3", "10", "Legs"));
+        addExercise(new Exercise(0, "Leg Press", "10", "3", "Legs"));
+        addExercise(new Exercise(0, "Lunges", "10", "3", "Legs"));
+        addExercise(new Exercise(0, "Leg Curls", "10", "3", "Legs"));
+        addExercise(new Exercise(0, "Calf Raises", "10", "3", "Legs"));
+        addExercise(new Exercise(0, "Abdominal Crunches", "10", "3", "Legs"));
     }
     //****************************
     // USED FOR STATISTICS
@@ -404,7 +407,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 String dateStr = cursor.getString(0);
-                int totalVolume = cursor.getInt(1);
+                float totalVolume = cursor.getFloat(1);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 try {
@@ -445,7 +448,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 String dateStr = cursor.getString(0);
-                int totalWeight = cursor.getInt(1);
+                float totalWeight = cursor.getFloat(1);
 
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 try {

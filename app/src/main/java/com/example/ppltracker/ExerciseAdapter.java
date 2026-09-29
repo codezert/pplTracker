@@ -87,6 +87,9 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
                 @Override
                 public boolean onLongClick(View v) {
                     int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) {
+                        return true;
+                    }
                     if (selectedItem != -1) {
                         notifyItemChanged(selectedItem);
                     }

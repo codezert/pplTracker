@@ -34,6 +34,11 @@ public class EditExerciseActivity extends AppCompatActivity {
 
         if (selectedExerciseId != -1) { // CHANGED CONDITION HERE
             Exercise exercise = dbHelper.getExerciseById(selectedExerciseId); // CHANGED LINE HERE
+            if (exercise == null) {
+                Toast.makeText(this, "Exercise not found", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
             edtExerciseName.setText(exercise.getName());
             edtReps.setText(exercise.getReps());
             edtSets.setText(exercise.getSets());
@@ -50,12 +55,16 @@ public class EditExerciseActivity extends AppCompatActivity {
                 if (exerciseName.isEmpty() || reps.isEmpty() || sets.isEmpty()) {
                     Toast.makeText(EditExerciseActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else if (exerciseName.length() > 20 || reps.length() > 20 || sets.length() > 20) {
-                    Toast.makeText(EditExerciseActivity.this, "Reps or Sets input is too long. It should not exceed 20 characters.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditExerciseActivity.this, "Name, reps or sets input is too long. It should not exceed 20 characters.", Toast.LENGTH_SHORT).show();
                     return;
                 } else {
                     Exercise exercise;
                     if (selectedExerciseId != -1) {
                         exercise = dbHelper.getExerciseById(selectedExerciseId);
+                        if (exercise == null) {
+                            finish();
+                            return;
+                        }
                         exercise.setName(exerciseName);
                         exercise.setReps(reps);
                         exercise.setSets(sets);
